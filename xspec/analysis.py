@@ -7,14 +7,13 @@ from tqdm import tqdm
 import numpy as np
 import multiprocessing as mp
 import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
-
 
 plt.style.use("https://github.com/mlefkir/beauxgraphs/raw/main/beautifulgraphs.mplstyle")
 
 import statistics
-from addons import *
-import spectra, qq
+import spectra
+from .addons import *
+from .qq import *
 
 
 
@@ -764,7 +763,7 @@ class SpectralAnalysis :
         if not os.path.isfile(data_file):
             lineE_list = np.arange(minEnergy,maxEnergy+dE,dE)
             xspec.Xset.restore(f"{self.outputfiles_basename}.xcm")  
-            cstat_bf = old_addComp("zgauss")#addComp("zgauss")
+            cstat_bf = addons.old_addComp("zgauss")#addComp("zgauss")
 
             xspec.AllModels(1).zgauss.Redshift = (redshift , -1)
             xspec.AllModels(1).zgauss.Sigma = (0,-1)
@@ -840,7 +839,7 @@ class SpectralAnalysis :
                 xspec.AllModels.show()
                 xspec.Fit.show()
                 xspec.Xset.chatter = 0
-                addComp(add_index,"cflux")
+                addons.addComp(add_index,"cflux")
 
                 xspec.AllModels(1).cflux.Emin = (minE,-1)
                 xspec.AllModels(1).cflux.Emax = (maxE,-1)
